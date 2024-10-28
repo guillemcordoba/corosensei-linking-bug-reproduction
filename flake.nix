@@ -2,10 +2,7 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-
-    rust-overlay.url = "github:oxalica/rust-overlay";
-    crane.url = "github:ipetkov/crane";
-    p2p-shipyard.url = "github:darksoil-studio/p2p-shipyard";
+    p2p-shipyard.url = "github:darksoil-studio/p2p-shipyard/next";
   };
 
   outputs = inputs@{ ... }:

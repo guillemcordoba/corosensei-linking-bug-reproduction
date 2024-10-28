@@ -9,5 +9,5 @@ crate-type = ["cdylib", "rlib"]
 path = "src/lib.rs"
 
 [dependencies]
-corosensei = "0.2"
-wasmer-vm = "4"
+# corosensei = "0.2"
+wasmer-vm = { git = "https://github.com/wasmerio/wasmer", rev = "688cf64faba9c2420829cfbe94c0835c097c507c" }
