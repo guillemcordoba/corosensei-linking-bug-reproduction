@@ -1,0 +1,13 @@
+[package]
+name = "corosensei-arm-linking-bug-reproduction"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "example_lib"
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[dependencies]
+corosensei = "0.2"
+wasmer-vm = "4"
