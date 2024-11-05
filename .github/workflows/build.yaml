@@ -24,6 +24,5 @@ jobs:
             apt-get update -y
             apt-get install -y curl
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-            rustup toolchain target add armv7-linux-androideabi
             cargo build --target armv7-linux-androideabi
 
