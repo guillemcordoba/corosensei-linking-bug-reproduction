@@ -9,25 +9,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install nix
-        uses: cachix/install-nix-action@v27
+      - uses: uraimo/run-on-arch-action@v2
+        name: Run commands
         with:
-          github_access_token: ${{ secrets.GITHUB_TOKEN }}
-          nix_path: nixpkgs=channel:nixos-24.05
+          arch: armv7
+          distro: ubuntu22.04
 
-      - uses: cachix/cachix-action@v15
-        with:
-          name: holochain-ci
+          # Not required, but speeds up builds by storing container images in
+          # a GitHub package registry.
+          githubToken: ${{ github.token }}
 
-      - uses: cachix/cachix-action@v15
-        with:
-          name: holochain-open-dev
-
-      - uses: cachix/cachix-action@v15
-        with:
-          name: darksoil-studio
-
-      - name: Build crate
-        run: |
-          nix develop --command bash -c "cargo build --target armv7-linux-androideabi"
+          # Set an output parameter `uname` for use in subsequent steps
+          run: |
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+            rustup toolchain target add armv7-linux-androideabi
+            cargo build --target armv7-linux-androideabi
 
