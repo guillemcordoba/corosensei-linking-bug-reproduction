@@ -27,7 +27,7 @@ jobs:
           # Set an output parameter `uname` for use in subsequent steps
           run: |
             apt-get update -y
-            apt-get install -y curl build-essential
+            apt-get install -y curl build-essential liblog4cplus-dev liblog4cpp5-dev libunwind8-dev
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
             . "$HOME/.cargo/env"
             rustup target add armv7-linux-androideabi
