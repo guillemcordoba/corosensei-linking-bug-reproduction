@@ -8,28 +8,26 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - name: Run Docker on tmpfs
-        uses: JonasAlfredsson/docker-on-tmpfs@v1
-        with:
-          tmpfs_size: 5
-          swap_size: 4
-          swap_location: '/mnt/swapfile'
-      - uses: uraimo/run-on-arch-action@v2
-        name: Run commands
-        with:
-          arch: armv7
-          distro: ubuntu22.04
 
-          # Not required, but speeds up builds by storing container images in
-          # a GitHub package registry.
-          githubToken: ${{ github.token }}
+      - name: Install nix
+        uses: cachix/install-nix-action@v27
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          nix_path: nixpkgs=channel:nixos-24.05
 
-          # Set an output parameter `uname` for use in subsequent steps
-          run: |
-            apt-get update -y
-            apt-get install -y curl build-essential liblog4cplus-dev liblog4cpp5-dev libunwind8-dev
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-            . "$HOME/.cargo/env"
-            rustup target add armv7-linux-androideabi
-            cargo build --target armv7-linux-androideabi
+      - uses: cachix/cachix-action@v15
+        with:
+          name: holochain-ci
+
+      - uses: cachix/cachix-action@v15
+        with:
+          name: holochain-open-dev
+
+      - uses: cachix/cachix-action@v15
+        with:
+          name: darksoil-studio
+
+      - name: Build crate
+        run: |
+          nix develop --command bash -c "cargo build --target armv7-linux-androideabi"
 
